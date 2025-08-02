@@ -7,9 +7,6 @@
 
 import {
   ResumeModel,
-  Education,
-  Experience,
-  Skills,
 } from "../models/ResumeModel";
 import { HeaderBlock } from "./HeaderBlock";
 import { SummaryBlock } from "./SummaryBlock";
@@ -35,33 +32,35 @@ export class BlockFactory {
    * @param type Тип блоку для створення
    * @param model Дані моделі для цього блоку
    * @returns Створений блок, готовий для рендерингу
-   *
-   * TODO: Реалізуйте метод createBlock, який створює і повертає
-   * відповідний блок залежно від типу, використовуючи патерн Factory Method.
    */
-  createBlock(type: BlockType, m: ResumeModel): IBlock {
-    // TODO: Реалізуйте логіку створення відповідного об'єкта IBlock
+  createBlock(type: BlockType, model: ResumeModel): IBlock {
     switch (type) {
       case "header":
-        // TODO: Поверніть новий HeaderBlock з відповідними даними
-        break;
+        if (!model.header) throw new Error("Missing header data");
+        return new HeaderBlock(model.header);
+
       case "summary":
-        // TODO: Поверніть новий SummaryBlock з відповідними даними
-        break;
+        if (!model.summary) throw new Error("Missing summary data");
+        return new SummaryBlock(model.summary);
+
       case "experience":
-        // TODO: Поверніть новий ExperienceBlock з відповідними даними
-        break;
+        if (!model.experience || model.experience.length === 0)
+          throw new Error("Missing experience data");
+        // Передаємо масив досвіду роботи
+        return new ExperienceBlock(model.experience);
+
       case "education":
-        // TODO: Поверніть новий EducationBlock з відповідними даними
-        break;
+        if (!model.education || model.education.length === 0)
+          throw new Error("Missing education data");
+        // Передаємо масив освіти
+        return new EducationBlock(model.education);
+
       case "skills":
-        // TODO: Поверніть новий SkillsBlock з відповідними даними
-        break;
+        if (!model.skills) throw new Error("Missing skills data");
+        return new SkillsBlock(model.skills);
+
       default:
         throw new Error(`Unknown block type: ${type}`);
     }
-
-    // Тимчасове рішення для компілятора видалити після реалізації
-    throw new Error("Method not implemented");
   }
 }

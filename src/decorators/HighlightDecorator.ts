@@ -1,11 +1,3 @@
-/**
- * Патерн Decorator (Декоратор)
- *
- * Клас для додавання виділення до блоків резюме.
- * Декорує об'єкти типу IBlock, додаючи їм нову функціональність
- * без зміни їх внутрішньої структури.
- */
-
 import { IBlock } from "../blocks/BlockFactory";
 
 export class HighlightDecorator implements IBlock {
@@ -23,8 +15,13 @@ export class HighlightDecorator implements IBlock {
    * додає клас 'highlight' до елемента і повертає його
    */
   render(): HTMLElement {
-    // TODO: Викликати render() на обгорнутому блоці
-    // TODO: Додати клас 'highlight' до елемента
-    // TODO: Повернути модифікований елемент
+    // Викликаємо render() на обгорнутому блоці
+    const element = this.wrapped.render();
+
+    // Додаємо клас 'highlight'
+    element.classList.add("highlight");
+
+    // Повертаємо модифікований елемент
+    return element;
   }
 }

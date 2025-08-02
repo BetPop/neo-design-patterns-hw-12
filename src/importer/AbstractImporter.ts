@@ -5,26 +5,31 @@
 export abstract class AbstractImporter<T> {
   constructor(protected raw: unknown) {}
 
+  /**
+   * Основний метод імпорту, який визначає послідовність кроків:
+   * валідація, мапінг, рендеринг.
+   */
   import(): void {
     this.validate();
     const model = this.map();
     this.render(model);
   }
 
-  // TODO: Реалізуйте ці абстрактні методи в підкласі:
-
   /**
-   * Валідує вхідні дані перед обробкою
+   * Валідує вхідні дані перед обробкою.
+   * Має бути реалізований у підкласі.
    */
   protected abstract validate(): void;
 
   /**
-   * Перетворює вхідні дані на модель
+   * Перетворює вхідні дані (this.raw) на модель типу T.
+   * Має бути реалізований у підкласі.
    */
   protected abstract map(): T;
 
   /**
-   * Рендерить модель у DOM
+   * Рендерить модель у DOM.
+   * Має бути реалізований у підкласі.
    */
   protected abstract render(model: T): void;
 }

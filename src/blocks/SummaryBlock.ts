@@ -11,14 +11,22 @@ export class SummaryBlock implements IBlock {
   /**
    * Рендеринг блоку короткого опису
    *
-   * TODO: Реалізуйте метод для відображення секції з коротким описом
+   * Відображає секцію з заголовком і текстом короткого опису
    */
   render(): HTMLElement {
     // Створюємо секцію
     const el = document.createElement("section");
     el.className = "section summary";
 
-    // TODO: Додайте до секції заголовок h2 і параграф з текстом опису (this.d.text)
+    // Заголовок
+    const heading = document.createElement("h2");
+    heading.textContent = "Summary";
+    el.appendChild(heading);
+
+    // Параграф з текстом опису
+    const paragraph = document.createElement("p");
+    paragraph.textContent = this.d.text;
+    el.appendChild(paragraph);
 
     return el;
   }

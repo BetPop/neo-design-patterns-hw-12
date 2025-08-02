@@ -1,26 +1,33 @@
-/**
- * Блок відображення освіти в резюме
- */
-
 import { Education } from "../models/ResumeModel";
 import { IBlock } from "./BlockFactory";
 
 export class EducationBlock implements IBlock {
-  constructor(private d: Education) {}
+  constructor(private educationList: Education[]) {}
 
-  /**
-   * Рендеринг блоку освіти
-   *
-   * TODO: Реалізуйте метод для відображення інформації про освіту
-   */
   render(): HTMLElement {
-    // Створюємо секцію
     const el = document.createElement("section");
     el.className = "section education";
     el.innerHTML = "<h2>Education</h2>";
 
-    // TODO: Додайте до секції інформацію про навчальний заклад (this.d.institution),
-    // отриманий ступінь (this.d.degree) та період навчання (this.d.graduation)
+    this.educationList.forEach(d => {
+      const eduItem = document.createElement("div");
+      eduItem.className = "education-item";
+
+      const institution = document.createElement("h3");
+      institution.textContent = d.institution;
+
+      const degreeField = document.createElement("p");
+      degreeField.textContent = `${d.degree} in ${d.field}`;
+
+      const graduation = document.createElement("p");
+      graduation.textContent = `Graduated: ${d.graduation}`;
+
+      eduItem.appendChild(institution);
+      eduItem.appendChild(degreeField);
+      eduItem.appendChild(graduation);
+
+      el.appendChild(eduItem);
+    });
 
     return el;
   }

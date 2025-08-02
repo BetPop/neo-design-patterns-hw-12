@@ -1,41 +1,61 @@
-/**
- * Конкретна реалізація імпортера резюме
- * Наслідується від AbstractImporter і реалізує абстрактні методи
- */
-
 import { AbstractImporter } from "./AbstractImporter";
 import { ResumeModel } from "../models/ResumeModel";
-import { BlockFactory } from "../blocks/BlockFactory";
+import { BlockFactory, BlockType } from "../blocks/BlockFactory";
 
 export class ResumeImporter extends AbstractImporter<ResumeModel> {
-  /**
-   * Перевіряє, чи відповідає JSON-об'єкт очікуваній структурі
-   *
-   * TODO: Реалізуйте валідацію JSON-даних резюме.
-   * Перевірте наявність необхідних полів (header, summary, experience, education, skills)
-   */
   protected validate(): void {
-    // TODO: Додайте перевірки на наявність обов'язкових полів та їх структуру. Неприпустимий формат JSON
+    const data = this.raw as Partial<ResumeModel>;
+
+    if (typeof data !== "object" || data === null) {
+      throw new Error("Invalid data: not an object");
+    }
+
+    // Перевіряємо обов'язкові поля
+    if (!data.header || typeof data.header.fullName !== "string" || typeof data.header.title !== "string") {
+      throw new Error("Invalid or missing header");
+    }
+
+    if (!data.summary || typeof data.summary.text !== "string") {
+      throw new Error("Invalid or missing summary");
+    }
+
+    if (!Array.isArray(data.experience)) {
+      throw new Error("Invalid or missing experience");
+    }
+
+    if (!Array.isArray(data.education)) {
+      throw new Error("Invalid or missing education");
+    }
+
+    if (!data.skills || typeof data.skills !== "object") {
+      throw new Error("Invalid or missing skills");
+    }
   }
 
-  /**
-   * Перетворює JSON-дані у внутрішню модель резюме
-   *
-   */
   protected map(): ResumeModel {
+    // Просто кастимо, бо дані вже валідні
     return this.raw as ResumeModel;
   }
 
-  /**
-   * Рендерить модель резюме у DOM
-   *
-   * TODO: Реалізуйте рендеринг моделі у DOM-дерево
-   */
   protected render(model: ResumeModel): void {
-    const root = document.getElementById("resume-content")!;
-    // TODO: Створіть фабрику і використайте її для створення і рендерингу блоків
+    const root = document.getElementById("resume-content");
+    if (!root) {
+      throw new Error("Root element #resume-content not found");
+    }
+    root.innerHTML = ""; // Очищаємо перед рендером
+
     const factory = new BlockFactory();
 
-    // TODO: Створіть і додайте у DOM кожен блок резюме
+    // Порядок рендерингу блоків, можна змінити при потребі
+    const blockOrder: BlockType[] = ["header", "summary", "experience", "education", "skills"];
+
+    for (const type of blockOrder) {
+      try {
+        const block = factory.createBlock(type, model);
+        root.appendChild(block.render());
+      } catch (e) {
+        console.warn(`Failed to render block "${type}":`, e);
+      }
+    }
   }
 }
