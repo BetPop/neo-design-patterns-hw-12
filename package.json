@@ -1,26 +1,19 @@
 {
-  "name": "neo-design-patterns-hw-01",
+  "name": "resume-generator-template",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Цей шаблон демонструє застосування п'яти патернів (Facade, Template Method, Factory Method, Composite, Decorator) у мінімальному проєкті без сторонніх залежностей.",
+  "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/BetPop/neo-design-patterns-hw-01.git"
+    "start": "vite",
+    "build": "vite build",
+    "dev": "vite",
+    "preview": "vite preview"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/BetPop/neo-design-patterns-hw-01/issues"
-  },
-  "homepage": "https://github.com/BetPop/neo-design-patterns-hw-01#readme",
   "devDependencies": {
-    "@types/node": "^24.0.10",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "serve": "^14.2.4",
+    "vite": "^5.2.10"
   }
 }
